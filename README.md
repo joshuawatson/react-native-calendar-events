@@ -35,33 +35,93 @@ import RNCalendarEvents from 'react-native-calendar-events';
 
 
 ## Get authorization status for IOS EventStore
-Returns a promise with fulfilled authorization status of "denied", "restricted", "authorized" or "undetermined".
+```
+authorizationStatus()
+```
+**Parameters:** *None*
 
+**Returns:** *Promise*
+
+**onFulfill:** 
+ - Fulfillment value: `String` : Either 'denied', 'restricted', 'authorized' or 'undetermined'
+
+Example:
 ```javascript
-RNCalendarEvents.authorizationStatus();
+RNCalendarEvents.authorizationStatus()
+.then(status => {
+  // handle status
+})
+.catch(error => {
+  // handle error
+});
 ```
 
 ## Request authorization to IOS EventStore
 Authorization must be granted before accessing calendar events.
-Returns a promise with fulfilled authorization status of "denied", "restricted", "authorized" or "undetermined".
 
 ```javascript
-RNCalendarEvents.authorizeEventStore();
+authorizeEventStore();
+```
+
+**Parameters:** *None*
+
+**Returns:** *Promise*
+
+**onFulfill:** 
+  - Fulfillment value: `String` : Either 'denied', 'restricted', 'authorized' or 'undetermined'
+
+Example
+```javascript
+RNCalendarEvents.authorizeEventStore()
+.then(status => {
+  // handle status
+})
+.catch(error => {
+  // handle error
+});
 ```
 
 ## Fetch all calendar events from EventStore
-Returns a promise with fulfilled with found events.
 
 ```javascript
-RNCalendarEvents.fetchAllEvents(startDate, endDate);
+fetchAllEvents(startDate, endDate);
+```
+
+**Parameters:** <br>
+ - startDate: `Date`
+ - endDate: `Date`
+
+**Returns:** *Promise*
+
+**onFulfill:** 
+ - Fulfillment value: `Array` : Event found based on the predicate's start and end date.
+
+Example
+```javascript
+RNCalendarEvents.fetchAllEvents('2016-08-19T19:26:00.000Z', '2017-08-19T19:26:00.000Z')
+.then(events => {
+  // handle events
+})
+.catch(error => {
+  // handle error
+});
 ```
 
 ## Create calendar event
-Returns a promise with fulfilled with the created event's id.
 
 ```
-RNCalendarEvents.saveEvent(title, settings);
+saveEvent(title, settings);
 ```
+
+**Parameters:** <br>
+ - title: `String` : Title of the event
+ - settings: `Object` : Settings for the event
+
+**Returns:** *Promise*
+
+**onFulfill:**
+ - Fulfillment value: `String` : Newly created event's id.
+
 Example:
 
 ```javascript
@@ -71,7 +131,12 @@ RNCalendarEvents.saveEvent('title', {
   startDate: '2016-10-01T09:45:00.000UTC',
   endDate: '2016-10-02T09:45:00.000UTC'
 })
-.then(eventId => {...});
+.then(id => {
+  // handle new event 
+})
+.catch(error => {
+  // handle error
+});
 ```
 
 ## Create calendar event with alarms
@@ -144,9 +209,18 @@ RNCalendarEvents.saveEvent('title', {
 ```
 
 ## Update calendar event
-Give the unique calendar event **id** to update an existing calendar event.
-Returns a promise with fulfilled with updated event's id.
+Add `id` property to the settings object to update an existing calendar event.
 
+**Parameters:** <br>
+ - title: `String` : Title of the event
+ - settings: `Object` : Settings for the event
+
+**Returns:** *Promise*
+
+**onFulfill:**
+ - Fulfillment value: `String` : Updated event's id.
+
+Example:
 ```javascript
 RNCalendarEvents.saveEvent('title', {
   id: 'id',
@@ -159,18 +233,48 @@ RNCalendarEvents.saveEvent('title', {
 
 ## Remove calendar event
 Give the unique calendar event instance **id** to remove the calendar event.
-Returns a promise with fulfilled with updated event's id.
-
 
 ```javascript
-RNCalendarEvents.removeEvent('id');
+removeEvent('id');
+```
+
+**Parameters:** <br>
+ - id: `String` : Unique id for the event.
+
+**Returns:** *Promise*
+
+**onFulfill:**
+ - Fulfillment value: `String` : Removed event id.
+
+Example:
+```javascript
+RNCalendarEvents.removeEvent('id')
+.then(id => {
+  // handle removed event
+})
+.catch(error => {
+  // handle error
+});
 ```
 
 ## Remove future (recurring) calendar events
 Give the unique calendar event instance **id** to remove future calendar events.
-Returns a promise with fulfilled with updated event's id.
+
+**Parameters:** <br>
+ - id: `String` : Unique id for the event.
+
+**Returns:** *Promise*
+
+**onFulfill:**
+ - Fulfillment value: `String` : Removed event id.
 
 
 ```javascript
-RNCalendarEvents.removeFutureEvents('id');
+RNCalendarEvents.removeFutureEvents('id')
+.then(id => {
+  // handle removed event
+})
+.catch(error => {
+  // handle error
+});
 ```
